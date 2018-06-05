@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "outDir": "dist/",
+    "target": "ES5",
+    "lib": ["ES6"],
+    "inlineSourceMap": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+}
