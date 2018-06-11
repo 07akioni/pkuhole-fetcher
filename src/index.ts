@@ -107,7 +107,7 @@ async function updatePostDetail (updatedPids: Array<number>, pids: Array<number>
  * @param scale: number check post scale
  * @param second: number sleep after last request
  */
-async function runUpdateLatestPost (scale: number = 300, second: number = 10): Promise<void> {
+async function runUpdateLatestPost (scale: number = 300, second: number = 3): Promise<void> {
   while (true) {
     await sleep(second * 1000)
     try {
