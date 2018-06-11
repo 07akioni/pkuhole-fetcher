@@ -27,15 +27,15 @@ interface remotePost {
   url: string
 }
 
-function intersection<T> (thisSet: Set<T>, otherSet: Set<T>): Set<T> {  
-  const interSectionSet = new Set()
+function difference<T> (thisSet: Set<T>, otherSet: Set<T>): Set<T> {  
+  const diffSet = new Set()
   const values = Array.from(thisSet) 
   for (var i = 0; i < values.length; i++) {  
-    if (otherSet.has(values[i])) {  
-      interSectionSet.add(values[i])  
+    if (!otherSet.has(values[i])) {  
+      diffSet.add(values[i])  
     }  
   }  
-  return interSectionSet
+  return diffSet
 }
 
 /*
@@ -172,7 +172,7 @@ async function updateAllPost (second: number = 10, scale: number = 3000): Promis
       attributes: ['id', 'pid']
     })).forEach(v => localPids.add(v.pid))
     
-    const deletedPids = intersection(localPids, remotePids)
+    const deletedPids = difference(localPids, remotePids)
     console.log(`updateAllPost: ${ deletedPids.size } posts have been deleted`)
     await Post.update({
       deleted: true
