@@ -168,8 +168,20 @@ async function updateAllPost (second: number = 10, scale: number = 3000): Promis
    * check and update deleted info
    */
   try {
+    let lastRemotePid: number = -1
+    for (let pid of Array.from(remotePids)) {
+      if (lastRemotePid <= pid) {
+        lastRemotePid = pid
+      }
+    }
+    
     (await Post.findAll({
-      attributes: ['id', 'pid']
+      attributes: ['id', 'pid'],
+      where: {
+        pid: {
+          [Op.lte]: lastRemotePid
+        }
+      }
     })).forEach(v => localPids.add(v.pid))
     
     const deletedPids = difference(localPids, remotePids)
@@ -198,7 +210,6 @@ async function syncPost (posts: Array<remotePost>): Promise<{ updatedPids: Array
   const updatedPids: Array<number> = []
   const createdPids: Array<number> = []
   const pids: Array<number> = posts.map(v => Number(v.pid))
-  let index = 0
 
   const postModels = await Post.findAll({
     attributes: ['id', 'pid', 'reply', 'likenum', 'extra'],
