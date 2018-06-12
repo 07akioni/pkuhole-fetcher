@@ -142,7 +142,7 @@ async function updateAllPost (second: number = 10, scale: number = 3000): Promis
       const posts: Array<remotePost> = await wrapPromise(() => queryPosts(p, scale), 5)
       console.log(`updateAllPost: get page ${p}`)
       console.log(`updateAllPost: ${ posts.length } posts have been got`)
-      if (!posts.length) return
+      if (!posts.length) break
       /*
        * sync those data with db
        */
